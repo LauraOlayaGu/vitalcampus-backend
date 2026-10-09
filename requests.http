@@ -1,0 +1,117 @@
+### Pruebas de API REST - VitalCampus V 1.0 (Sprint 2)
+@baseUrl = http://localhost:4000/api
+
+### 1. Health Check
+GET {{baseUrl}}/health
+
+### 2. Dashboard Resumen General
+GET {{baseUrl}}/dashboard/resumen
+
+### 3. Indicadores de Carga Semanal y Bienestar
+GET {{baseUrl}}/indicadores/carga-semanal
+
+### 4. Alertas Preventivas
+GET {{baseUrl}}/alertas
+
+### 5. Marcar Alerta como Leída
+PATCH {{baseUrl}}/alertas/1/leida
+
+### 6. Registros de Sueño - Listar Todos
+GET {{baseUrl}}/suenos
+
+### 7. Registros de Sueño - Resumen Semanal
+GET {{baseUrl}}/suenos/semanal
+
+### 8. Registros de Sueño - Crear Nuevo (con cálculo automático de horas y estrés opcional)
+POST {{baseUrl}}/suenos
+Content-Type: application/json
+
+{
+  "fecha": "2026-09-25T00:00:00.000Z",
+  "horaDormir": "23:30",
+  "horaDespertar": "06:30",
+  "calidadSueno": 3,
+  "observacion": "Estudié hasta tarde para el parcial de arquitectura",
+  "nivelEstres": 4
+}
+
+### 9. Registros de Sueño - Actualizar por ID
+PUT {{baseUrl}}/suenos/1
+Content-Type: application/json
+
+{
+  "horaDormir": "23:00",
+  "horaDespertar": "07:00",
+  "calidadSueno": 4
+}
+
+### 10. Registros de Sueño - Eliminar por ID
+DELETE {{baseUrl}}/suenos/1
+
+### 11. Asignaturas - Listar
+GET {{baseUrl}}/asignaturas
+
+### 12. Asignaturas - Crear Nueva
+POST {{baseUrl}}/asignaturas
+Content-Type: application/json
+
+{
+  "nombre": "Sistemas Operativos & Redes",
+  "codigo": "INF-304",
+  "creditos": 3,
+  "color": "#e11d48",
+  "activa": true
+}
+
+### 13. Asignaturas - Actualizar por ID
+PUT {{baseUrl}}/asignaturas/1
+Content-Type: application/json
+
+{
+  "nombre": "Programación Web Avanzada & APIs",
+  "color": "#0d9488"
+}
+
+### 14. Asignaturas - Eliminar por ID
+DELETE {{baseUrl}}/asignaturas/99
+
+### 15. Entregas Académicas - Listar
+GET {{baseUrl}}/entregas
+
+### 16. Entregas Académicas - Crear Nueva
+POST {{baseUrl}}/entregas
+Content-Type: application/json
+
+{
+  "asignaturaId": 1,
+  "titulo": "Entrega Final de Arquitectura REST",
+  "tipo": "PROYECTO",
+  "fechaLimite": "2026-10-02T23:59:00.000Z",
+  "porcentajePeso": 35,
+  "estado": "PENDIENTE"
+}
+
+### 17. Entregas Académicas - Actualizar Estado por ID
+PUT {{baseUrl}}/entregas/1
+Content-Type: application/json
+
+{
+  "estado": "COMPLETADA"
+}
+
+### 18. Entregas Académicas - Eliminar por ID
+DELETE {{baseUrl}}/entregas/99
+
+### 19. Registros de Estudio - Listar
+GET {{baseUrl}}/estudio
+
+### 20. Registros de Estudio - Crear Nuevo
+POST {{baseUrl}}/estudio
+Content-Type: application/json
+
+{
+  "asignaturaId": 1,
+  "fecha": "2026-09-25T00:00:00.000Z",
+  "horasEstudio": 4.5,
+  "observacion": "Sesión intensiva de pruebas REST y Prisma ORM"
+}

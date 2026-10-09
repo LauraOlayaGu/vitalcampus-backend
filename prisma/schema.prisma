@@ -1,0 +1,100 @@
+// Prisma Schema for VitalCampus V 1.0 - Sprint 2
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id              Int               @id @default(autoincrement())
+  nombreCompleto  String
+  correo          String            @unique
+  contrasenaHash  String
+  rol             String            @default("ESTUDIANTE")
+  createdAt       DateTime          @default(now())
+
+  registrosEstres RegistroEstres[]
+  registrosSueno  RegistroSueno[]
+  asignaturas     Asignatura[]
+  alertas         Alerta[]
+}
+
+model RegistroEstres {
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int
+  fecha       DateTime
+  nivelEstres Int      // 1 a 5
+  observacion String?
+  createdAt   DateTime @default(now())
+
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
+
+model RegistroSueno {
+  id            Int      @id @default(autoincrement())
+  usuarioId     Int
+  fecha         DateTime
+  horaDormir    String   // Formato HH:mm
+  horaDespertar String   // Formato HH:mm
+  horasSueno    Float
+  calidadSueno  Int      // 1 a 5
+  observacion   String?
+  createdAt     DateTime @default(now())
+
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
+
+model Asignatura {
+  id               Int                @id @default(autoincrement())
+  usuarioId        Int
+  nombre           String
+  codigo           String?
+  creditos         Int?
+  color            String?
+  activa           Boolean            @default(true)
+  createdAt        DateTime           @default(now())
+
+  usuario          Usuario            @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  entregas         EntregaAcademica[]
+  registrosEstudio RegistroEstudio[]
+}
+
+model EntregaAcademica {
+  id             Int        @id @default(autoincrement())
+  asignaturaId   Int
+  titulo         String
+  tipo           String     // TAREA, ENTREGA, PARCIAL, QUIZ, PROYECTO
+  fechaLimite    DateTime
+  porcentajePeso Float?
+  estado         String     @default("PENDIENTE") // PENDIENTE, EN_PROGRESO, COMPLETADA
+  createdAt      DateTime   @default(now())
+
+  asignatura     Asignatura @relation(fields: [asignaturaId], references: [id], onDelete: Cascade)
+}
+
+model RegistroEstudio {
+  id           Int        @id @default(autoincrement())
+  asignaturaId Int
+  fecha        DateTime
+  horasEstudio Float      // Mayor que 0
+  observacion  String?
+  createdAt    DateTime   @default(now())
+
+  asignatura   Asignatura @relation(fields: [asignaturaId], references: [id], onDelete: Cascade)
+}
+
+model Alerta {
+  id              Int      @id @default(autoincrement())
+  usuarioId       Int
+  tipo            String   // CARGA_ACADEMICA, SUENO, ESTRES, RECOMENDACION
+  prioridad       String   // BAJA, MEDIA, ALTA
+  mensaje         String
+  leida           Boolean  @default(false)
+  fechaGeneracion DateTime @default(now())
+
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
