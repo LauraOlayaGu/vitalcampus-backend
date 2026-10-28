@@ -1,14 +1,12 @@
 // Prisma Schema for VitalCampus V 1.0 - Sprint 2
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
-
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
 model Usuario {
   id              Int               @id @default(autoincrement())
   nombreCompleto  String

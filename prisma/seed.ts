@@ -16,12 +16,12 @@ async function main() {
   await prisma.registroEstres.deleteMany();
   await prisma.usuario.deleteMany();
 
-  // 1. Crear Usuario Demo
+  // 1. Crear Usuario Demo con formato institucional de la FET
   const usuario = await prisma.usuario.create({
     data: {
       nombreCompleto: 'Estudiante Demo VitalCampus',
-      correo: 'estudiante@vitalcampus.com',
-      contrasenaHash: '$2a$10$DemoHashForVitalCampusMVP2026SecureString', // No expuesta en la API
+      correo: 'estudiante_demo@fet.edu.co',
+      contrasenaHash: '$2a$10$DemoHashForVitalCampusMVP2026SecureString', // Contraseña hasheada segura
       rol: 'ESTUDIANTE'
     }
   });
@@ -80,7 +80,7 @@ async function main() {
     data: [
       {
         asignaturaId: asig1.id,
-        titulo: 'Proyecto Fullstack Sprint 2 - API REST & Prisma',
+        titulo: 'Proyecto Fullstack - API REST & PostgreSQL',
         tipo: 'PROYECTO',
         fechaLimite: fechaLimite1,
         porcentajePeso: 30,
@@ -88,7 +88,7 @@ async function main() {
       },
       {
         asignaturaId: asig2.id,
-        titulo: 'Taller de Optimización de Consultas SQL y SQLite',
+        titulo: 'Taller de Optimización de Consultas SQL y Prisma ORM',
         tipo: 'TAREA',
         fechaLimite: fechaLimite2,
         porcentajePeso: 15,
@@ -96,7 +96,7 @@ async function main() {
       },
       {
         asignaturaId: asig3.id,
-        titulo: 'Examen Parcial de Patron de Arquitectura Monorepo',
+        titulo: 'Examen Parcial de Patron de Arquitectura Web',
         tipo: 'PARCIAL',
         fechaLimite: fechaLimite3,
         porcentajePeso: 25,
@@ -138,7 +138,7 @@ async function main() {
 
   console.log('✅ Registros de sueño de 7 días creados (con promedio < 6h).');
 
-  // 5. Crear Registros de Estrés recientes (Nivel 4 u 5)
+  // 5. Crear Registros de Estrés recientes
   const fechaEstres1 = new Date();
   fechaEstres1.setDate(hoy.getDate() - 3);
 
@@ -164,13 +164,13 @@ async function main() {
 
   console.log('✅ Registros de estrés creados (último con nivel 5).');
 
-  // 6. Crear Registros de Estudio de los últimos 7 días que SUMEN MÁS DE 28 HORAS (ej: 32h -> (32/40)*100 = 80%)
+  // 6. Crear Registros de Estudio de los últimos 7 días
   const estudioData = [
     { diasAtras: 6, asignaturaId: asig1.id, horas: 5, obs: 'Estudio de backend Express y TS' },
-    { diasAtras: 5, asignaturaId: asig2.id, horas: 4, obs: 'Modelado relacional con Prisma' },
-    { diasAtras: 4, asignaturaId: asig3.id, horas: 5, obs: 'Diseño de arquitectura monorepo' },
+    { diasAtras: 5, asignaturaId: asig2.id, horas: 4, obs: 'Modelado relacional con PostgreSQL y Prisma' },
+    { diasAtras: 4, asignaturaId: asig3.id, horas: 5, obs: 'Diseño de arquitectura de software' },
     { diasAtras: 3, asignaturaId: asig1.id, horas: 6, obs: 'Desarrollo de endpoints REST' },
-    { diasAtras: 2, asignaturaId: asig2.id, horas: 4, obs: 'Pruebas de consultas SQLite' },
+    { diasAtras: 2, asignaturaId: asig2.id, horas: 4, obs: 'Pruebas de consultas en PostgreSQL' },
     { diasAtras: 1, asignaturaId: asig3.id, horas: 5, obs: 'Preparación de entrega académica' },
     { diasAtras: 0, asignaturaId: asig1.id, horas: 3, obs: 'Repaso final de indicadores' }
   ];

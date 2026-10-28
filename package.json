@@ -4,7 +4,8 @@
   "description": "Backend API for VitalCampus V 1.0 (Node.js, Express, TypeScript, Prisma, SQLite)",
   "main": "dist/index.js",
   "scripts": {
-    "build": "node node_modules/prisma/build/index.js generate && tsc",
+    "build": "tsc",
+  "postinstall": "prisma generate",
   "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "prisma:generate": "npx prisma generate",
